@@ -1,0 +1,117 @@
+main {
+    margin: 40px 0;
+}
+.wrapper__heading {
+    background-color: var(--light-gray);
+    padding: 10px 0;
+}
+.wrapper__heading .heading a {
+    color: var(--black);
+}
+.heading>li+li::before {
+    content: "/";
+    padding: 0 5px;
+    color: var(--light-black);
+}
+.heading .prioritized {
+    color: #777 !important;
+}
+.main__title {
+    text-align: center;
+}
+.main__title .title {
+    font-size: 35px; 
+}
+.main__title .count_cart::after {
+    content: "";
+    background-color: var(--black-color);
+    width: 100px;
+    display: block;
+    height: 4px;
+    margin: 15px auto;
+}
+table {
+    width: 100%;
+    text-align: left;
+}
+
+
+.main_cart img {
+    width: 80px;
+    height: auto;
+}
+
+.main_cart td:nth-child(1){
+    width: 100px !important;
+}
+.main_cart .quantity input {
+    background-color: var(--white-color);
+    border: 1px solid #dadbdd;
+    width: 20px;
+    border-radius: 0 !important;
+}
+
+.main_cart .show_quantity {
+    width: 50px !important;
+    text-align: center;
+    background-color: rgba(128, 128, 128, 0.266) !important;
+}
+.main_cart .btn_remove {
+    
+    border: none;
+    background-color: var(--white-color);
+}
+.main_cart .btn_remove img {
+    width: 15px;
+    vertical-align: middle;
+}
+.main_cart .space {
+    padding: 10px 0;
+}
+.main_cart button, input {
+    cursor: pointer;
+}
+.main_cart input,textarea {
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    border: 1px solid #dadbdd;
+    border-radius: 5px;
+}
+.main_cart h1 {
+    font-size: 30px;
+}
+.main_cart {
+    margin: 50px 0;
+}
+
+.main_cart .btn_order {
+    background-color: var(--black-color);
+    border: 1px solid var(--light-black);
+    padding: 10px 30px;
+    color: var(--white-color);
+    border-radius: 2px;
+}
+.main_cart .img_colorz {
+    width: 40px;
+    height: 40px;
+}
+.main_cart .btn_order:hover {
+    background-color: var(--white-color);
+    color: var(--black-color);
+    border: 1px solid var(--black-color);
+    
+}
+.main_cart thead {
+    display: none;
+}
+
+.main_cart table td{
+    padding: 20px 0;
+}
+a {
+    text-decoration: none;
+}
+.consignee_infomation .infomation {
+    margin-right: 100px;
+}

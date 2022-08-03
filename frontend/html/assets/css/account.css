@@ -1,0 +1,61 @@
+.account__page {
+    border-bottom: 1px solid var(--light-gray2);
+    border-top: 1px solid var(--light-gray2);
+    margin-bottom: 10px;
+}
+.account__page .content {
+    grid-template-columns: 1fr 1fr;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.account__page .heading {
+    border-right: 1px solid var(--light-gray2);
+    height: 80vh;
+}
+.account__page .title {
+    font-size: 50px;
+    font-weight: 600;
+    margin-top: 100px;
+}
+.account__page .title::after {
+  content: "";
+  background-color: var(--black-color);
+  width: 80px;
+  height: 5px;
+  margin-top: 50px;
+  display: block;
+}
+
+.form__account {
+    margin-left: 100px;
+    margin-top: 150px;
+}
+.form__account form {
+    flex-direction: column;
+}
+.form__account input {
+   background-color: #ededed;
+   border: 1px solid transparent;
+   margin: 10px 0;
+   padding: 10px 20px;
+}
+.form__account input:hover {
+    background-color: var(--white-color);
+    border: 1px solid var(--light-gray2);
+ }
+ .wrapper_button button {
+    cursor: pointer;
+    padding: 0 20px;
+    background-color: var(--black-color);
+    color: var(--white-color);
+    margin-right: 20px;
+ }
+ .forgot_password a{
+    display: block;
+ }
+ .forgot_password a::before {
+    content: "hãy";
+    color: gray;
+    padding-right: 5px;
+
+ }

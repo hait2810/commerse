@@ -1,0 +1,32 @@
+main {
+    margin: 40px 0;
+}
+.wrapper__heading {
+    background-color: var(--light-gray);
+    padding: 10px 0;
+}
+.wrapper__heading .heading a {
+    color: var(--black);
+}
+.heading>li+li::before {
+    content: "/";
+    padding: 0 5px;
+    color: var(--light-black);
+}
+.heading .prioritized {
+    color: #777 !important;
+}
+.title__select {
+    margin: 40px 0;
+}
+.title__select .select {
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    border-bottom: 1px solid var(--light-black);
+}
+.title__select .title {
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
