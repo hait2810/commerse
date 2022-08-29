@@ -64,7 +64,7 @@ const onAddCart = async (data:any) => {
     totalprice: sum
  }
   try {
-      const {data} = await axios.post("https://projectecommerse.herokuapp.com/carts", cartss);
+      const {data} = await axios.post("https://commerse-production.up.railway.app/carts", cartss);
       console.log(data);
       toastr.success("Đơn hàng đã được gửi")
       localStorage.removeItem("cart");

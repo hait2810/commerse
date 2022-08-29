@@ -9,7 +9,7 @@ const ListUser = (props: Props) => {
     const {handleSubmit,register} = useForm()
     const [user,setUser] = useState<any[]>([])
     const getListUser = async () => {
-        const {data} = await axios.get("https://projectecommerse.herokuapp.com/users");
+        const {data} = await axios.get("https://commerse-production.up.railway.app/users");
         setUser(data)
     }
     useEffect(() => {

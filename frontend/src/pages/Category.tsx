@@ -20,7 +20,7 @@ const Category = (props: Props) => {
     getProducts();
     const getCategory = async () => {
       const { data } = await axios.get(
-        "https://projectecommerse.herokuapp.com/categorys/" + id
+        "https://commerse-production.up.railway.app/categorys/" + id
       );
       setCategory(data);
     };
@@ -29,15 +29,15 @@ const Category = (props: Props) => {
   const ONadd: SubmitHandler<any> = (data: any) => {
     
     if(data.select == 'new') {
-         url = `https://projectecommerse.herokuapp.com/productsbycategory/${id}/createdAt/-1` 
+         url = `https://commerse-production.up.railway.app/productsbycategory/${id}/createdAt/-1` 
     }else if(data.select == 'lowtohigh') {
-      url = `https://projectecommerse.herokuapp.com/productsbycategory/${id}/price/-1` 
+      url = `https://commerse-production.up.railway.app/productsbycategory/${id}/price/-1` 
     }else if(data.select == 'hightolow'){
-      url = `https://projectecommerse.herokuapp.com/productsbycategory/${id}/price/1`
+      url = `https://commerse-production.up.railway.app/productsbycategory/${id}/price/1`
     }
     getProducts(); 
   };
-  let url = `https://projectecommerse.herokuapp.com/productsbycategory/${id}`
+  let url = `https://commerse-production.up.railway.app/productsbycategory/${id}`
   
  
   

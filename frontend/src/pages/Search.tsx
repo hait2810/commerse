@@ -13,7 +13,7 @@ const Search = (props: Props) => {
     },[])
     const {key} = useParams()
     const getProducts = async () => {
-        const {data} = await axios.get("https://projectecommerse.herokuapp.com/searchproducts/"+key);
+        const {data} = await axios.get("https://commerse-production.up.railway.app/searchproducts/"+key);
         setProducts(data)        
         setLoading(true)
     }

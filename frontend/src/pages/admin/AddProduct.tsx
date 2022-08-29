@@ -22,14 +22,14 @@ const AddProduct = (props: Props) => {
     
     useEffect(() => {
             const getSize = async () => {
-                const {data} = await axios.get("https://projectecommerse.herokuapp.com/sizes")
+                const {data} = await axios.get("https://commerse-production.up.railway.app/sizes")
                 
                 setSize(data)
             }
             getSize()
 
             const getCategorys = async () => {
-                const {data} = await axios.get("https://projectecommerse.herokuapp.com/categorys")
+                const {data} = await axios.get("https://commerse-production.up.railway.app/categorys")
                 setCategory(data)
             }
             getCategorys()
@@ -73,7 +73,7 @@ const AddProduct = (props: Props) => {
             }
             
             
-           await axios.post("https://projectecommerse.herokuapp.com/products", products)
+           await axios.post("https://commerse-production.up.railway.app/products", products)
            toastr.success("Thêm thành công") 
            navigate('/admin/products')
     }

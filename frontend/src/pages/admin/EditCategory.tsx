@@ -19,7 +19,7 @@ const EditCategory = (props: Props) => {
         getCategory()
     }, [])
     const onEdit = async (data:any) => {
-            await axios.put("https://projectecommerse.herokuapp.com/categorys/"+id, data);
+            await axios.put("https://commerse-production.up.railway.app/categorys/"+id, data);
             toastr.success("Sửa thành công");
             navigate('/admin/categorys')
     }

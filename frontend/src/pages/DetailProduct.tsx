@@ -21,7 +21,7 @@ const DetailProduct = (props: Props) => {
     const [cart, setCart] = useState<any[]>([])
     useEffect(() => {
         const getProducts = async () => {
-            const {data} = await axios.get("https://projectecommerse.herokuapp.com/product/"+id);
+            const {data} = await axios.get("https://commerse-production.up.railway.app/product/"+id);
             setProduct(data)
             setLoading(true)
            

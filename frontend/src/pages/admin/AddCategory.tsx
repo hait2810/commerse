@@ -11,7 +11,7 @@ const AddCategory = (props: Props) => {
     const {register, handleSubmit} = useForm()
     const navigate = useNavigate()
     const onAdd = async (data:any) => {
-            await axios.post("https://projectecommerse.herokuapp.com/categorys/",data)
+            await axios.post("https://commerse-production.up.railway.app/categorys/",data)
             toastr.success("Thêm thành công");
             navigate('/admin/categorys')
     }

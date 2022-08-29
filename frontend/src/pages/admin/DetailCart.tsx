@@ -13,7 +13,7 @@ const DetailCart = (props: Props) => {
     const [products,setProducts] = useState<any[]>([])
     const {register, handleSubmit, reset} = useForm()
     const getCart = async () => {
-            const {data} = await axios.get(`https://projectecommerse.herokuapp.com/carts/${id}`)
+            const {data} = await axios.get(`https://commerse-production.up.railway.app/carts/${id}`)
             setCart(data)
             reset(data)
             setProducts(data.product)       
@@ -22,7 +22,7 @@ const DetailCart = (props: Props) => {
         getCart()
     }, [])
     const onEdit = async (data:any) => {
-            await axios.put(`https://projectecommerse.herokuapp.com/carts/${id}`,data)
+            await axios.put(`https://commerse-production.up.railway.app/carts/${id}`,data)
             toastr.success("Update status success")
     }
   return (

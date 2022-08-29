@@ -10,7 +10,7 @@ const ListCategory = (props: Props) => {
     document.title = "Danh sách danh mục"
     useEffect (() => {
         const getCateogrys = async () => {
-            const {data} = await axios.get("https://projectecommerse.herokuapp.com/categorys")
+            const {data} = await axios.get("https://commerse-production.up.railway.app/categorys")
             setCategorys(data)
         }
         getCateogrys()
@@ -18,7 +18,7 @@ const ListCategory = (props: Props) => {
 const onDelete = async (id:any) => {
         const confirm = window.confirm("Bạn có chắc chắn muốn xoá không?")
         if(confirm) {
-          await  axios.delete("https://projectecommerse.herokuapp.com/categorys/"+id)
+          await  axios.delete("https://commerse-production.up.railway.app/categorys/"+id)
           setCategorys(categorys.filter(item => item._id !== id))
           toastr.success("Xoá thành công !")
         }else{

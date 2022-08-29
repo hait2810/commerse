@@ -16,12 +16,12 @@ const EditUser = (props: Props) => {
         getUser()
     }, [])
     const getUser = async () => {
-            const {data} = await axios.get("https://projectecommerse.herokuapp.com/user/"+id)
+            const {data} = await axios.get("https://commerse-production.up.railway.app/user/"+id)
             setUser(data)
             reset(data)
     }
     const onEdit = async (data:any) => {
-                await axios.put(`https://projectecommerse.herokuapp.com/user/${id}`, data)
+                await axios.put(`https://commerse-production.up.railway.app/user/${id}`, data)
             toastr.success("Update success")
             navigate('/admin/users')
             

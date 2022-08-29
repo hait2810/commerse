@@ -11,7 +11,7 @@ const Home = (props: Props) => {
     document.title = "Home page"
     useEffect(() => {
         const getProducts = async () => {
-            const {data} = await axios.get("https://projectecommerse.herokuapp.com/products/8");
+            const {data} = await axios.get("https://commerse-production.up.railway.app/products/8");
             setProducts(data)
             setLoading(true)
         }

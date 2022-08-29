@@ -8,7 +8,7 @@ type Props = {}
 const ListCart = (props: Props) => {
     const [carts, setCart] = useState<any[]>([]);
     const getCart = async () => {
-        const {data} = await axios.get("https://projectecommerse.herokuapp.com/carts")
+        const {data} = await axios.get("https://commerse-production.up.railway.app/carts")
         setCart(data)
     }
 
@@ -18,7 +18,7 @@ const ListCart = (props: Props) => {
     const onRemove = async (id: any) => {
         const confirm = window.confirm("Bạn có chắc chắn muốn xoá")
         if(confirm) {
-             await axios.delete(`https://projectecommerse.herokuapp.com/carts/${id}`);
+             await axios.delete(`https://commerse-production.up.railway.app/carts/${id}`);
              setCart(carts.filter(item => item._id !== id))
             toastr.success("Xoá thành công")
         }

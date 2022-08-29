@@ -14,7 +14,7 @@ const Signup = (props: Props) => {
     document.title = "Signin"
     const onSignin: SubmitHandler<any> = async (user:any) => {
         try {
-            const {data} = await axios.post("https://projectecommerse.herokuapp.com/signup", user)
+            const {data} = await axios.post("https://commerse-production.up.railway.app/signup", user)
             
             toastr.success("Đăng ký thành công")
             navigate('/signin')

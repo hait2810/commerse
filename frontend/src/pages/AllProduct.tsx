@@ -11,7 +11,7 @@ const AllProduct = (props: Props) => {
         getProducts()
     },[])
     const getProducts = async () => {
-        const {data} = await axios.get("https://projectecommerse.herokuapp.com/products/");
+        const {data} = await axios.get("https://commerse-production.up.railway.app/products/");
         setProducts(data)
     }
   return (

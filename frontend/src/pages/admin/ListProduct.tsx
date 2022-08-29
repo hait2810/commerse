@@ -10,7 +10,7 @@ const ListProduct = (props: Props) => {
     document.title = "Danh sách sản phẩm"
     useEffect (() => {
         const getProducts = async () => {
-            const {data} = await axios.get("https://projectecommerse.herokuapp.com/products")
+            const {data} = await axios.get("https://commerse-production.up.railway.app/products")
             setProducts(data)
         }
         getProducts()
@@ -18,7 +18,7 @@ const ListProduct = (props: Props) => {
 const onDelete = async (id:any) => {
         const confirm = window.confirm("Bạn có chắc chắn muốn xoá không?")
         if(confirm) {
-          await  axios.delete("https://projectecommerse.herokuapp.com/products/"+id)
+          await  axios.delete("https://commerse-production.up.railway.app/products/"+id)
           setProducts(products.filter(item => item._id !== id))
           toastr.success("Xoá thành công !")
         }else{

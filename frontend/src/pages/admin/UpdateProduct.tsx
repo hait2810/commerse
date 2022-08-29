@@ -24,20 +24,20 @@ const UpdateProduct = (props: Props) => {
     
     useEffect(() => {
             const getSize = async () => {
-                const {data} = await axios.get("https://projectecommerse.herokuapp.com/sizes")
+                const {data} = await axios.get("https://commerse-production.up.railway.app/sizes")
                 
                 setSize(data)
             }
             getSize()
 
             const getCategorys = async () => {
-                const {data} = await axios.get("https://projectecommerse.herokuapp.com/categorys")
+                const {data} = await axios.get("https://commerse-production.up.railway.app/categorys")
                 setCategory(data)
             }
             getCategorys()
             
             const getProducts = async () => {
-                const {data} = await axios.get("https://projectecommerse.herokuapp.com/product/"+id);
+                const {data} = await axios.get("https://commerse-production.up.railway.app/product/"+id);
                 reset(data)
                 setProduct(data)
                 setAvatar(data.img)
@@ -94,7 +94,7 @@ const UpdateProduct = (props: Props) => {
           
             
             
-           await axios.put("https://projectecommerse.herokuapp.com/products/" + id, products) 
+           await axios.put("https://commerse-production.up.railway.app/products/" + id, products) 
            toastr.success("Sửa thành công")
            navigate('/admin/products')
     }
