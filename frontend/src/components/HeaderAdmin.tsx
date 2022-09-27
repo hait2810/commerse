@@ -6,11 +6,7 @@ type HeaderAdminProps = {
 
 
 const HeaderAdmin = (props:  HeaderAdminProps) => {
-  useEffect(() => {
-      console.log();
-      
-      
-  }, [])
+ 
   return (
     <div>
      

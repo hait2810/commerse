@@ -1,25 +1,26 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
+import { deleteCategory, listCategory } from '../../features/Categorys/Category.slice'
+import { CategoryType } from '../../types/CategoryType'
 type Props = {}
 
 const ListCategory = (props: Props) => {
-    const [categorys, setCategorys] = useState<any[]>([])
+    const dispatch = useDispatch<any>()
+    const categorys = useSelector((state: CategoryType) => state.category.categorys)
+    console.log(categorys);
+    
     document.title = "Danh sách danh mục"
     useEffect (() => {
-        const getCateogrys = async () => {
-            const {data} = await axios.get("https://commerse-production.up.railway.app/categorys")
-            setCategorys(data)
-        }
-        getCateogrys()
-    })
-const onDelete = async (id:any) => {
+        dispatch(listCategory())
+    }, [dispatch])
+const onDelete =  (id:string) => {
         const confirm = window.confirm("Bạn có chắc chắn muốn xoá không?")
         if(confirm) {
-          await  axios.delete("https://commerse-production.up.railway.app/categorys/"+id)
-          setCategorys(categorys.filter(item => item._id !== id))
+            dispatch(deleteCategory(id))
           toastr.success("Xoá thành công !")
         }else{
             toastr.success("Xoá không thành công !")
@@ -40,12 +41,12 @@ const onDelete = async (id:any) => {
       </tr>
     </thead>
     <tbody>
-    {categorys?.map((item,index) => {
-                return  <tr>
+    {categorys?.map((item: CategoryType,index: number) => {
+                return  <tr key={index ++}>
                 <td>{index +1 }</td>
                 <td>{item.name}</td>
                 <td><NavLink className="btn btn-success" to={`${item._id}/edit`}>Sửa</NavLink></td>
-                <td><button type='submit' onClick={() => onDelete(item._id)} className='btn btn-warning'>Xoá</button></td>
+                <td><button type='submit' onClick={() => onDelete(item._id!)} className='btn btn-warning'>Xoá</button></td>
               </tr>
             })}
      

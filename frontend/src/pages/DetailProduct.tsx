@@ -21,7 +21,7 @@ const DetailProduct = (props: Props) => {
     const [cart, setCart] = useState<any[]>([])
     useEffect(() => {
         const getProducts = async () => {
-            const {data} = await axios.get("https://commerse-production.up.railway.app/product/"+id);
+            const {data} = await axios.get("http://localhost:8000/product/"+id);
             setProduct(data)
             setLoading(true)
            
@@ -68,10 +68,7 @@ const DetailProduct = (props: Props) => {
           
         }        
         localStorage.setItem("cart", JSON.stringify(cart))
-        toastr.success("Thêm vào giỏ hàng thành công!")
-        
-        
-       
+        toastr.success("Thêm vào giỏ hàng thành công!")  
     }
     const Decrement  = () => {
       if(quantity > 1) {

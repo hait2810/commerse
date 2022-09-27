@@ -2,23 +2,30 @@ import React from 'react'
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 import {useNavigate} from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { CategoryType } from '../../types/CategoryType'
+import { addCategory } from '../../features/Categorys/Category.slice'
 
 type Props = {}
 
 const AddCategory = (props: Props) => {
-    const {register, handleSubmit} = useForm()
+   type FormInputs = {
+      name: string
+   }
+    const {register, handleSubmit} = useForm<FormInputs>()
+    const dispatch = useDispatch<any>()
     const navigate = useNavigate()
-    const onAdd = async (data:any) => {
-            await axios.post("https://commerse-production.up.railway.app/categorys/",data)
+    const onAdd:SubmitHandler<CategoryType> = (data:  CategoryType) => {
+            dispatch(addCategory(data))
             toastr.success("Thêm thành công");
             navigate('/admin/categorys')
     }
   return (
     <div>
         <h1>Thêm danh mục</h1>
-    <form onSubmit={handleSubmit(onAdd)}>
+    <form onSubmit={handleSubmit(onAdd as any)}>
 
     <div className="mb-3">
   <label htmlFor="exampleFormControlInput1" className="form-label">Name</label>

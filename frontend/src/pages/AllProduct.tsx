@@ -1,19 +1,23 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { listProduct } from '../features/Products/Product.slice';
+import { ProductType } from '../types/ProductType';
 
 type Props = {}
 
 const AllProduct = (props: Props) => {
-    const [products, setProducts] = useState<any[]>([])
+   
+    const dispatch = useDispatch<any>()
+    const products = useSelector((state: ProductType) => state.product.products)
+  
+    
     useEffect(() => {
-        getProducts()
-    },[])
-    const getProducts = async () => {
-        const {data} = await axios.get("https://commerse-production.up.railway.app/products/");
-        setProducts(data)
-    }
+          dispatch(listProduct())
+    },[dispatch])
+   
   return (
     <div>
       <div className="wrapper__heading">
@@ -41,9 +45,9 @@ const AllProduct = (props: Props) => {
       <section className="new__products">
         <div className="container">
           <div className="products dp-grid">
-            {products?.map((item) => {
+            {products?.map((item: ProductType, index: number) => {
               return (
-                <div className="product" data-aos="fade-down">
+                <div key={index ++} className="product" data-aos="fade-down">
                   <NavLink to={`/product/${item._id}`}>
                     <img src={item.img} alt="" className="product__img" />
                   </NavLink>

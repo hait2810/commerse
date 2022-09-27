@@ -2,11 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 import { NavLink, useParams } from 'react-router-dom';
+import { ProductType } from '../types/ProductType';
 
 type Props = {}
 
 const Search = (props: Props) => {
-    const [products, setProducts] = useState<any[]>([])
+    const [products, setProducts] = useState<ProductType[]>([])
     const [loading,setLoading] = useState(false)
     useEffect(() => {
         getProducts()

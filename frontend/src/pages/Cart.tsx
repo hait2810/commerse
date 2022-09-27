@@ -6,9 +6,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import 'toastr/build/toastr.min.css'
 import NumberFormat from 'react-number-format'
 import axios from 'axios'
+import { ProductType } from '../types/ProductType'
 type Props = {}
 
 const Cart = (props: Props) => {
+    
     const [carts, setCarts] = useState<any[]>([])
     const {register, handleSubmit, formState: {errors}} = useForm()
     const navigate = useNavigate()
@@ -64,7 +66,7 @@ const onAddCart = async (data:any) => {
     totalprice: sum
  }
   try {
-      const {data} = await axios.post("https://commerse-production.up.railway.app/carts", cartss);
+      const {data} = await axios.post("http://localhost:8000/carts", cartss);
       console.log(data);
       toastr.success("Đơn hàng đã được gửi")
       localStorage.removeItem("cart");

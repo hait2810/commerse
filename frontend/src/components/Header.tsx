@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {useForm} from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import {NavLink, useNavigate} from 'react-router-dom'
+import { readCart } from '../features/Cart/Cart.slice'
 type Props = {}
 
 
@@ -10,12 +12,22 @@ const Header = (props: Props) => {
   const {register, handleSubmit} = useForm()
   const [category,setCategory] = useState<any[]>([])
   const navigate = useNavigate()
+ 
+  const cartsh = useSelector((state: any) => state.cart.carts)
+  const dispatch = useDispatch<any>();
+  console.log("cart", cartsh);
+  var sumcart = 0;
+  cartsh.forEach((item:any) => {
+    sumcart = item.length
+    
+  });
   useEffect(() => {
     const getCategory = async () => {
       const {data} = await axios.get("https://projectecommerse.herokuapp.com/categorys");
       setCategory(data)
     }
     getCategory()
+    dispatch(readCart())
   }, [])
   const onSearch = (data:any) => {
       navigate(`search/${data.key}`)
@@ -46,8 +58,8 @@ const Header = (props: Props) => {
                 </li>
                 <li><a className="btn_nav remove__underline dp-flex align-items" href="">Danh mục sản phẩm  <img className="icon__arrow" src="https://hait2810.github.io/assets/assets/img/arrow-down-outline.svg" alt="" /></a>
                   <ul className="subnav">
-                    {category?.map((item) => {
-                      return  <li><a className="remove__underline" href={`/categorys/${item._id}`}>{item.name}</a></li>
+                    {category?.map((item, index) => {
+                      return  <li key={index ++}><a className="remove__underline" href={`/categorys/${item._id}`}>{item.name}</a></li>
                     })}
                     
                   </ul>
@@ -68,7 +80,7 @@ const Header = (props: Props) => {
 
               <NavLink to="/carts" className="cart">
                 <img src="https://hait2810.github.io/assets/assets/img/bag-outline.svg" alt="" />
-                <span className="count"> {JSON.parse(localStorage.getItem("cart") as any) ? JSON.parse(localStorage.getItem("cart") as any).length : '0' } </span> 
+                <span className="count"> {sumcart ? sumcart : '0' } </span> 
               </NavLink>
             </div>
           </div>

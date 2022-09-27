@@ -2,21 +2,22 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format';
 import {NavLink} from 'react-router-dom'
+import { ProductType } from '../types/ProductType';
 type Props = {}
 
 const Home = (props: Props) => {
     
-    const [products, setProducts] =  useState<any[]>([])
+    const [products, setProducts] =  useState<ProductType[]>([])
     const [loading, setLoading] = useState(false)
     document.title = "Home page"
     useEffect(() => {
         const getProducts = async () => {
-            const {data} = await axios.get("https://commerse-production.up.railway.app/products/8");
+            const {data} = await axios.get("http://localhost:8000/products/8");
             setProducts(data)
             setLoading(true)
         }
         getProducts()
-    })
+    },[])
   return (
   
     <div>
@@ -26,8 +27,8 @@ const Home = (props: Props) => {
         <h2 className="title">sản phẩm mới nhất</h2>
         {loading ? '' : <h1> Loading ... </h1>}
         <div className="products dp-grid">
-         {products?.map((item) => {
-            return  <div className="product">
+         {products?.map((item, index) => {
+            return  <div key={index ++} className="product">
             <NavLink to={`product/${item._id}`} 
               ><img
                 src={item.img}

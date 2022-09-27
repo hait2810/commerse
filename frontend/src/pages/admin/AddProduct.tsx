@@ -6,6 +6,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {useForm, SubmitHandler} from 'react-hook-form'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../features/Products/Product.slice';
 type Props = {}
 
 
@@ -19,23 +21,23 @@ const AddProduct = (props: Props) => {
     const [color,setColor] = useState<any[]>([])
     const [content,setContent] = useState("")
     const {register, handleSubmit, formState} = useForm<any>();
+    const dispatch = useDispatch<any>()
     
     useEffect(() => {
             const getSize = async () => {
-                const {data} = await axios.get("https://commerse-production.up.railway.app/sizes")
+                const {data} = await axios.get("http://localhost:8000/sizes")
                 
                 setSize(data)
             }
             getSize()
 
             const getCategorys = async () => {
-                const {data} = await axios.get("https://commerse-production.up.railway.app/categorys")
+                const {data} = await axios.get("http://localhost:8000/categorys")
                 setCategory(data)
             }
             getCategorys()
     }, [])
     const uploadImg = async (files:any) => {
-            console.log(files[0]);
             const formData = new FormData()
             formData.append("file", files[0])
             formData.append("upload_preset", "assjshihi")
@@ -73,7 +75,7 @@ const AddProduct = (props: Props) => {
             }
             
             
-           await axios.post("https://commerse-production.up.railway.app/products", products)
+            dispatch(addProduct(products))
            toastr.success("Thêm thành công") 
            navigate('/admin/products')
     }
@@ -111,8 +113,8 @@ const AddProduct = (props: Props) => {
   <div className="mb-3">
     <label htmlFor="exampleFormControlInput1" className="form-label">Chọn size (Bấm CTRL để chọn nhiều):</label>
     <select className="form-select" {...register("size")} multiple aria-label="multiple select example">
-    {sizes?.map((item) => {
-        return    <option value={item.name}>{item.name}</option>
+    {sizes?.map((item,index) => {
+        return    <option key={index++} value={item.name}>{item.name}</option>
        
     })}
 </select>
@@ -121,8 +123,8 @@ const AddProduct = (props: Props) => {
     <label htmlFor="exampleFormControlInput1" className="form-label">Chọn danh mục:</label>
     <select className="form-select" {...register("category")}  aria-label="select example">
     <option value="">Bấm vào để chọn</option>
-    {category?.map((item) => {
-        return    <option value={item._id}>{item.name}</option>
+    {category?.map((item,index) => {
+        return    <option key={index ++} value={item._id}>{item.name}</option>
        
     })}
 </select>

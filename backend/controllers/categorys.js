@@ -40,8 +40,8 @@ const updateCategory = async (req, res) => {
 const removeCategory = async (req, res) => {
   try {
     await Products.deleteMany({ category: req.params.id }).exec();
-    await Categorys.findByIdAndDelete({ _id: req.params.id }).exec();
-    res.json(product);
+    const category = await Categorys.findByIdAndDelete({ _id: req.params.id }).exec();
+    res.json(category);
   } catch (error) {
     res.status(400).json(error);
   }

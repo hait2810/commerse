@@ -4,14 +4,20 @@ import NumberFormat from "react-number-format";
 import { NavLink, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import "../assets/css/category.css";
+import { ProductType } from "../types/ProductType";
+import { CategoryType } from "../types/CategoryType";
+
 type Props = {};
 
 const Category = (props: Props) => {
+  type CategoryT = {
+    name: string
+  }
   const { id } = useParams();
   const { handleSubmit, register } = useForm();
-  const [products, setProduct] = useState<any[]>([]);
-  const [category, setCategory] = useState<any>({});
-  document.title = category.name;
+  const [products, setProduct] = useState<ProductType[]>([]);
+  const [category, setCategory] = useState<CategoryType>();
+  document.title = category?.name!
   const getProducts = async () => {
     const { data } = await axios.get(url);
     setProduct(data);
@@ -20,7 +26,7 @@ const Category = (props: Props) => {
     getProducts();
     const getCategory = async () => {
       const { data } = await axios.get(
-        "https://commerse-production.up.railway.app/categorys/" + id
+        "http://localhost:8000/categorys/" + id
       );
       setCategory(data);
     };
@@ -29,15 +35,15 @@ const Category = (props: Props) => {
   const ONadd: SubmitHandler<any> = (data: any) => {
     
     if(data.select == 'new') {
-         url = `https://commerse-production.up.railway.app/productsbycategory/${id}/createdAt/-1` 
+         url = `http://localhost:8000/productsbycategory/${id}/createdAt/-1` 
     }else if(data.select == 'lowtohigh') {
-      url = `https://commerse-production.up.railway.app/productsbycategory/${id}/price/-1` 
+      url = `http://localhost:8000/productsbycategory/${id}/price/-1` 
     }else if(data.select == 'hightolow'){
-      url = `https://commerse-production.up.railway.app/productsbycategory/${id}/price/1`
+      url = `http://localhost:8000/productsbycategory/${id}/price/1`
     }
     getProducts(); 
   };
-  let url = `https://commerse-production.up.railway.app/productsbycategory/${id}`
+  let url = `http://localhost:8000/productsbycategory/${id}`
   
  
   
@@ -60,7 +66,7 @@ const Category = (props: Props) => {
             </li>
             <li>
               <a className="remove__underline prioritized" href="#">
-                {category.name}
+                {category?.name}
               </a>
             </li>
           </ul>
@@ -69,7 +75,7 @@ const Category = (props: Props) => {
       <div className="title__select">
         <div className="container">
           <div className="wrapper__title__select dp-flex space-beetwen">
-            <h1 className="title">{category.name}</h1>
+            <h1 className="title">{category?.name}</h1>
             <form onChange={handleSubmit(ONadd)}>
               <select {...register("select")} className="select">
                 <option value="0">Mời bạn chọn</option>

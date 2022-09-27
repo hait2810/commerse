@@ -28,7 +28,7 @@ app.use(routerHome);
 app.use(routerSize);
 app.use(routerUser)
 app.use(routerCart)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log("Đang chạy cổng", PORT);
 });
