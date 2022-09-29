@@ -3,10 +3,13 @@ import '../assets/css/detail.css'
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 import {useParams} from 'react-router-dom'
-import axios from 'axios'
+
 import { SubmitHandler, useForm } from 'react-hook-form'
 import {NavLink} from 'react-router-dom'
 import NumberFormat from 'react-number-format';
+import { useDispatch } from 'react-redux'
+import { readProduct } from '../features/Products/Product.slice'
+import { addCart } from '../features/Cart/Cart.slice'
 type Props = {}
 
 const DetailProduct = (props: Props) => {
@@ -16,14 +19,19 @@ const DetailProduct = (props: Props) => {
     const [size, setSize] = useState<any>("")
     document.title  = product.name
     const [quantity, setQuantity] = useState(1)
-    const {register, handleSubmit} = useForm();
+    const {register, handleSubmit, formState: {errors}} = useForm();
     const [loading, setLoading] = useState(false)
-    const [cart, setCart] = useState<any[]>([])
+    const dispatch = useDispatch<any>()
+  
+    
     useEffect(() => {
         const getProducts = async () => {
-            const {data} = await axios.get("http://localhost:8000/product/"+id);
-            setProduct(data)
+            
+            
+            const {payload} = await dispatch(readProduct(id!))
+            setProduct(payload)
             setLoading(true)
+            
            
               const script = document.createElement("script");
           
@@ -35,7 +43,6 @@ const DetailProduct = (props: Props) => {
         }
         getProducts()
 
-        getCart()
     }, [])
 
     const productcart = {
@@ -48,27 +55,12 @@ const DetailProduct = (props: Props) => {
       img: product.img
     }
     
-      const getCart = () => {
-          if(localStorage.getItem("cart")) {
-            setCart(JSON.parse(localStorage.getItem('cart') as any))
-          }
-      }
+      
     const onCart:SubmitHandler<any> = () => {
-        const existProduct = cart.find(item => item._id === productcart._id)
-        const existColor = cart.find(item => item.color === productcart.color)
-        const existSize = cart.find(item => item.size === productcart.size)
-        if(!existProduct) {
-          cart.push(productcart)
-        } else {
-          if(!existColor || !existSize) {
-                cart.push(productcart)
-          }else {
-            existProduct.quantity += productcart.quantity
-          }
-          
-        }        
-        localStorage.setItem("cart", JSON.stringify(cart))
-        toastr.success("Thêm vào giỏ hàng thành công!")  
+     
+      
+        dispatch(addCart(productcart))
+         toastr.success("Thêm vào giỏ hàng thành công!")  
     }
     const Decrement  = () => {
       if(quantity > 1) {
@@ -87,7 +79,7 @@ const DetailProduct = (props: Props) => {
             <div className="container">
                 <ul className="heading dp-flex">
                    
-                    <li><NavLink className="remove__underline" to="/">Trang chủ</NavLink></li>
+                    <li><NavLink className="remove__underline" to="/">Trang chủ </NavLink></li>
                     <li><NavLink className="remove__underline" to="#">Sản phẩm</NavLink></li>
                     <li><NavLink className="remove__underline prioritized" to={`/product/${product._id}`}>{product.name}</NavLink></li>                    
                   </ul>
@@ -138,7 +130,7 @@ const DetailProduct = (props: Props) => {
                              
                               <div className="wrapper_color dp-flex">
                                {product.color?.map((item:any) => {
-                                return <label className="btn_color"  id='btn_color' htmlFor={item}><input name='color' type="radio" value={item} onChange={e=>setColor(e.target.value)}  /><img src={item} alt="á" /></label>
+                                return <label className="btn_color"  id='btn_color' htmlFor={item}><input name='color' type="radio" value={item} onChange={e=>setColor(e.target.value)}  /><img src={item}  /></label>
                                })}
                               </div>
                          

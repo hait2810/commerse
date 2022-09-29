@@ -10,9 +10,7 @@ type Props = {}
 
 const ListCategory = (props: Props) => {
     const dispatch = useDispatch<any>()
-    const categorys = useSelector((state: CategoryType) => state.category.categorys)
-    console.log(categorys);
-    
+    const categorys = useSelector((state: CategoryType) => state.category.categorys)  
     document.title = "Danh sách danh mục"
     useEffect (() => {
         dispatch(listCategory())

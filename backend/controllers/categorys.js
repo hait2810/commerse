@@ -19,10 +19,15 @@ const getCategory = async (req, res) => {
 
 const addCategory = async (req, res) => {
   try {
+    const {name} = req.body;
+    const exitsName = await Categorys.findOne({name}).exec();
+    if(exitsName) { 
+        return res.json({message: "Danh mục này đã tồn tại"});
+    }
     const category = await Categorys(req.body).save();
     res.json(category);
   } catch (error) {
-    res.status(400).json({ message: "Không thêm được" });
+    res.status(500).json({ message: "Không thêm được" });
   }
 };
 

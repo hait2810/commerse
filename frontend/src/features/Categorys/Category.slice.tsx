@@ -17,6 +17,8 @@ const initialState: ICategoryState = {
 
 export const addCategory = createAsyncThunk("category/create", async (category: CategoryType) => {
             const newCategory = await AddCategory(category);
+            console.log("res", newCategory);
+            
             return newCategory.data; 
 })
 export const listCategory  = createAsyncThunk("category/list", async () => {
@@ -25,10 +27,9 @@ export const listCategory  = createAsyncThunk("category/list", async () => {
 })
 export const deleteCategory = createAsyncThunk("category/remove", async (id: string) => {
     const res = await RemoveCategory(id);
-    console.log("rss" , res);
     return res.data
 })
-export const updateCategory = createAsyncThunk("category/update", async (category:ProductType) => {
+export const updateCategory = createAsyncThunk("category/update", async (category:CategoryType) => {
     const newCategory = await UpdateCategory(category)
     return newCategory.data
     

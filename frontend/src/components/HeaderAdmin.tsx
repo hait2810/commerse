@@ -47,7 +47,7 @@ const HeaderAdmin = (props:  HeaderAdminProps) => {
           <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             
            
-            <li><NavLink className="dropdown-item" to="/admin/carts">Danh sách danh mục</NavLink></li>
+            <li><NavLink className="dropdown-item" to="/admin/carts">Danh sách đơn hàng</NavLink></li>
           </ul>
         </li>
         <li className="nav-item dropdown">

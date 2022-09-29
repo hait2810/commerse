@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { createProduct, ListProduct, ListProducts, removeProduct, UpdateProduct } from "../../api/product";
 import { ProductType } from "../../types/ProductType";
 

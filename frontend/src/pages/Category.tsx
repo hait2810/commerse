@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import "../assets/css/category.css";
 import { ProductType } from "../types/ProductType";
 import { CategoryType } from "../types/CategoryType";
+import { readCategory } from "../api/category";
 
 type Props = {};
 
@@ -13,6 +14,7 @@ const Category = (props: Props) => {
   type CategoryT = {
     name: string
   }
+  const urlapi = "https://commerse.onrender.com/";
   const { id } = useParams();
   const { handleSubmit, register } = useForm();
   const [products, setProduct] = useState<ProductType[]>([]);
@@ -25,9 +27,7 @@ const Category = (props: Props) => {
   useEffect(() => {
     getProducts();
     const getCategory = async () => {
-      const { data } = await axios.get(
-        "http://localhost:8000/categorys/" + id
-      );
+      const { data } = await readCategory(id!)
       setCategory(data);
     };
     getCategory();
@@ -35,15 +35,15 @@ const Category = (props: Props) => {
   const ONadd: SubmitHandler<any> = (data: any) => {
     
     if(data.select == 'new') {
-         url = `http://localhost:8000/productsbycategory/${id}/createdAt/-1` 
+         url = `${urlapi}/productsbycategory/${id}/createdAt/-1` 
     }else if(data.select == 'lowtohigh') {
-      url = `http://localhost:8000/productsbycategory/${id}/price/-1` 
+      url = `${urlapi}/productsbycategory/${id}/price/-1` 
     }else if(data.select == 'hightolow'){
-      url = `http://localhost:8000/productsbycategory/${id}/price/1`
+      url = `${urlapi}/productsbycategory/${id}/price/1`
     }
     getProducts(); 
   };
-  let url = `http://localhost:8000/productsbycategory/${id}`
+  let url = `${urlapi}/productsbycategory/${id}`
   
  
   

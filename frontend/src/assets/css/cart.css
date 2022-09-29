@@ -50,7 +50,10 @@ table {
     width: 20px;
     border-radius: 0 !important;
 }
-
+.search {
+    background: none;
+    border: none;
+}
 .main_cart .show_quantity {
     width: 50px !important;
     text-align: center;

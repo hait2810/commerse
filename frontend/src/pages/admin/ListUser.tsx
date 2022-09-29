@@ -2,23 +2,23 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 import {useForm, SubmitHandler} from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { listUser } from '../../features/User/User.slice'
+import { UserType } from '../../types/UserType'
 type Props = {}
 
 const ListUser = (props: Props) => {
-    const {handleSubmit,register} = useForm()
-    const [user,setUser] = useState<any[]>([])
-    const getListUser = async () => {
-        const {data} = await axios.get("https://commerse-production.up.railway.app/users");
-        setUser(data)
-    }
+
+    const dispatch = useDispatch<any>()
+    const users = useSelector((state: UserType) => state.user.users)
+
+    
+       
     useEffect(() => {
-        getListUser()
-    }, [])
-    const onUpdate:SubmitHandler<any> = (data:any) => {
-        console.log(data);
-        
-    }
+        dispatch(listUser())
+    }, [dispatch])
+   
   return (
     <div>
           <div className="container">
@@ -34,8 +34,8 @@ const ListUser = (props: Props) => {
       </tr>
     </thead>
     <tbody>
-    {user?.map((item,index) => {
-                return  <tr>
+    {users?.map((item:UserType,index: number) => {
+                return  <tr key={index ++}>
                 <td>{index +1 }</td>
                 <td>{item.fullname}</td>
                 <td>{item.email}</td>

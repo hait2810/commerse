@@ -7,56 +7,39 @@ import 'toastr/build/toastr.min.css'
 import NumberFormat from 'react-number-format'
 import axios from 'axios'
 import { ProductType } from '../types/ProductType'
+import { useDispatch, useSelector } from 'react-redux'
+import { DecrementRe, IncrementRe, readCarts, removeCart, SendOrder } from '../features/Cart/Cart.slice'
+import { CartType } from '../types/CartType'
+
 type Props = {}
 
 const Cart = (props: Props) => {
-    
-    const [carts, setCarts] = useState<any[]>([])
+    const carts = useSelector((state: CartType) => state.cart.carts)
     const {register, handleSubmit, formState: {errors}} = useForm()
     const navigate = useNavigate()
+    const dispatch = useDispatch<any>()
     let sum = 0;
-    const getCart = () => {
-        setCarts(JSON.parse(localStorage.getItem("cart") as any)) 
-      }
-    useEffect(() => {
-        getCart()
-    }, [])
     
-    const onDeleteProduct =  (size:any, color:any, id:any) => {
+    useEffect(() => {
+        dispatch(readCarts())
+    }, [dispatch])
+    
+    const onDeleteProduct =  (info: any) => {
+      
+      
         const confirm = window.confirm("Bạn có chắc chắn muốn xoá không?");
         if(confirm) {
-            const cartsa = carts.find(item => item._id == id && item.color == color && item.size == size)
-            const cartsb = carts.filter(item => item !== cartsa)
-            localStorage.setItem("cart", JSON.stringify(cartsb))
-            getCart()
+            dispatch(removeCart(info))
+            // getCart()
            
             toastr.success("Xoá thành công")   
         }
     }
-    const Decrement =  (size:any, color:any, id:any) => {   
-            const cartsa = carts.find(item => item._id == id && item.color == color && item.size == size)
-            cartsa.quantity--
-            if(cartsa.quantity < 1) {
-                const confirm = window.confirm("Bạn có muốn xoá không");
-                if(confirm) {
-                    const cartsb = carts.filter(item => item !== cartsa) 
-                    localStorage.setItem("cart", JSON.stringify(cartsb))
-                    toastr.success("Xoá thành công")   
-                    return getCart()
-                }else {
-                  return getCart()
-                }
-            }
-            localStorage.setItem("cart", JSON.stringify(carts))
-            getCart()
-           
-              
+    const Decrement =  (info:any) => {   
+          dispatch(DecrementRe(info))        
     }
-    const Increment =  (size:any, color:any, id:any) => {   
-        const cartsa = carts.find(item => item._id == id && item.color == color && item.size == size)
-        cartsa.quantity++
-        localStorage.setItem("cart", JSON.stringify(carts))
-        getCart()
+    const Increment =  (info: any) => {   
+          dispatch(IncrementRe(info))
 }
  
 const onAddCart = async (data:any) => {
@@ -66,10 +49,8 @@ const onAddCart = async (data:any) => {
     totalprice: sum
  }
   try {
-      const {data} = await axios.post("http://localhost:8000/carts", cartss);
-      console.log(data);
+      dispatch(SendOrder(cartss))
       toastr.success("Đơn hàng đã được gửi")
-      localStorage.removeItem("cart");
       navigate('/')
       
   } catch (error) {
@@ -114,7 +95,7 @@ const onAddCart = async (data:any) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {carts ? carts.map((item) => {
+                    {carts ? carts.map((item: CartType) => {
                         {sum += item.price * item.quantity}
                         return  <tr>
                         <td><img src={item.img} alt="" /></td>
@@ -127,13 +108,31 @@ const onAddCart = async (data:any) => {
                           <img className='img_colorz' src={item.color} alt="" />
                           </div>
                           <div className="quantity dp-flex">
-                            <input type="submit" onClick={() => Decrement(item.size, item.color, item._id)}  value="-" className="up_and_down" name="" id="" />
+                            <input type="submit" onClick={() => Decrement(
+                               {
+                                _id: item._id, 
+                                size: item.size, 
+                                color: item.color
+                              }
+                            )}  value="-" className="up_and_down" name="" id="" />
                             <input type="text" className="show_quantity"  value={item.quantity} name="" id="" />
-                            <input type="submit" onClick={() => Increment(item.size, item.color, item._id)} value="+" className="up_and_down" name="" id="" />
+                            <input type="submit" onClick={() => Increment(
+                               {
+                                _id: item._id, 
+                                size: item.size, 
+                                color: item.color
+                              }
+                            )} value="+" className="up_and_down" name="" id="" />
                           </div>
                         </td>
                         <td>
-                          <button type="submit" onClick={() => onDeleteProduct(item.size, item.color, item._id)} className="btn_remove"><img src="https://theme.hstatic.net/1000340796/1000856039/14/ic_close.png?v=4" alt="" /></button>
+                          <button type="submit" onClick={() => onDeleteProduct(
+                            {
+                              _id: item._id, 
+                              size: item.size, 
+                              color: item.color
+                            }
+                          )} className="btn_remove"><img src="https://theme.hstatic.net/1000340796/1000856039/14/ic_close.png?v=4" alt="" /></button>
                           <div className="space"></div>
                           
                           <p className="total_price"> <NumberFormat value={item.quantity * item.price} displayType={'text'} thousandSeparator={true} prefix={''} /> ₫</p>

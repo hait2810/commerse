@@ -5,7 +5,7 @@ const signup = async (req, res) => {
   try {
     const exitsUser = await User.findOne({ email }).exec();
     if (exitsUser) {
-      return res.status(400).json({ message: "Email đã tồn tại !" });
+      return res.json({ message: "Email đã tồn tại !" });
     }
     const user = await User({ fullname, email, password }).save();
     res.json({
@@ -23,11 +23,11 @@ const signin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email }).exec();
-    if (!email) {
-      return res.status(400).json({ message: "Email không tồn tại!" });
+    if (!user) {
+      return res.json({ message: "Email không tồn tại!" });
     }
     if (!user.authenticate(password)) {
-      return res.status(400).json({ message: "Mật khẩu không đúng !" });
+      return res.json({ message: "Mật khẩu không đúng !" });
     }
     res.json({
       id: user._id,

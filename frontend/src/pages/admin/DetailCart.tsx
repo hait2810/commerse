@@ -1,29 +1,34 @@
-import axios from 'axios'
+
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import NumberFormat from 'react-number-format'
-import { NavLink, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
+import { readCart, UpdateCart } from '../../features/Cart/Cart.slice'
+import { CartType } from '../../types/CartType'
+
 type Props = {}
 
 const DetailCart = (props: Props) => {
     const {id} = useParams()
-    const [cart, setCart] = useState<any>({});
-    const [products,setProducts] = useState<any[]>([])
     const {register, handleSubmit, reset} = useForm()
-    const getCart = async () => {
-            const {data} = await axios.get(`https://commerse-production.up.railway.app/carts/${id}`)
-            setCart(data)
-            reset(data)
-            setProducts(data.product)       
-    }
+    const navigate = useNavigate()
+    const dispatch = useDispatch<any>()
+    const cart = useSelector((state: CartType) => state.cart.cart)
+   
     useEffect(() => {
-        getCart()
-    }, [])
-    const onEdit = async (data:any) => {
-            await axios.put(`https://commerse-production.up.railway.app/carts/${id}`,data)
+          const getCart = async () => {
+           const cartx =  await dispatch(readCart(id!)).unwrap()
+            reset(cartx)
+          }
+          getCart()
+    }, [dispatch])
+    const onEdit = async (data:CartType) => {
+            dispatch(UpdateCart(data))
             toastr.success("Update status success")
+            navigate('/admin/carts')
     }
   return (
     <div>
@@ -47,8 +52,8 @@ const DetailCart = (props: Props) => {
       </tr>
     </thead>
     <tbody>
-        {products?.map((item, index  ) => {
-            return <tr>
+        {cart.product?.map((item:any, index: number  ) => {
+            return <tr key={index ++}>
                 <td>{index +1}</td>
             <td>{item.name}</td>
             <td>{item.price}</td>
@@ -70,7 +75,7 @@ const DetailCart = (props: Props) => {
             <p>{cart.infomation?.address}</p>
         </td>
         <td>
-            <form onSubmit={handleSubmit(onEdit)}>
+            <form onSubmit={handleSubmit(onEdit as any)}>
                 <h2>Update Status</h2>
             <select {...register('status')} className="form-select my-3" aria-label="Default select example">
   <option selected>Mở menu để chọn</option>

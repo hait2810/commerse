@@ -13,14 +13,8 @@ const Header = (props: Props) => {
   const [category,setCategory] = useState<any[]>([])
   const navigate = useNavigate()
  
-  const cartsh = useSelector((state: any) => state.cart.carts)
-  const dispatch = useDispatch<any>();
-  console.log("cart", cartsh);
-  var sumcart = 0;
-  cartsh.forEach((item:any) => {
-    sumcart = item.length
-    
-  });
+  const carts = useSelector((state: any) => state.cart.carts)
+  const dispatch = useDispatch<any>();  
   useEffect(() => {
     const getCategory = async () => {
       const {data} = await axios.get("https://projectecommerse.herokuapp.com/categorys");
@@ -80,7 +74,7 @@ const Header = (props: Props) => {
 
               <NavLink to="/carts" className="cart">
                 <img src="https://hait2810.github.io/assets/assets/img/bag-outline.svg" alt="" />
-                <span className="count"> {sumcart ? sumcart : '0' } </span> 
+                <span className="count"> {carts ? carts.length : '0' } </span> 
               </NavLink>
             </div>
           </div>

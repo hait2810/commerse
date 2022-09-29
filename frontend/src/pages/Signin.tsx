@@ -6,18 +6,24 @@ import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 import { useNavigate } from 'react-router-dom'
 import '../assets/css/account.css'
+import { useDispatch } from 'react-redux'
+import { Login } from '../features/User/User.slice'
 type Props = {}
 
 const Signin = (props: Props) => {
     const navigate = useNavigate()
     const {register, handleSubmit, formState: {errors}} = useForm<any>()
+    const dispatch = useDispatch<any>()
     document.title = "Signin"
     const onSignin: SubmitHandler<any> = async (user:any) => {
         try {
-            const {data} = await axios.post("https://commerse-production.up.railway.app/signin", user)
-            localStorage.setItem("user", JSON.stringify(data))
-            toastr.success("Đăng nhập thành công")
-            navigate('/')
+            const {payload} = await dispatch(Login(user))
+            
+            if(payload.message) {
+                toastr.info(payload.message)
+            }else{
+                toastr.success("Đăng nhập thành công")
+            }
         } catch (error) {
            toastr.warning("Sai thông tin đăng nhập") 
         }

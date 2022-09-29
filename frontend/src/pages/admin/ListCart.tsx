@@ -1,25 +1,27 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import NumberFormat from 'react-number-format';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
+import { ListCarts, RemoveCart } from '../../features/Cart/Cart.slice';
+import { CartType } from '../../types/CartType';
 type Props = {}
 
 const ListCart = (props: Props) => {
-    const [carts, setCart] = useState<any[]>([]);
-    const getCart = async () => {
-        const {data} = await axios.get("https://commerse-production.up.railway.app/carts")
-        setCart(data)
-    }
-
+  const dispatch = useDispatch<any>()
+  const carts = useSelector((state: CartType) => state.cart.carts)
+// console.log("carts", carts);
+  
     useEffect(() => {
-        getCart()
+        dispatch(ListCarts())
     }, [])
-    const onRemove = async (id: any) => {
+    const onRemove = async (id: string) => {
         const confirm = window.confirm("Bạn có chắc chắn muốn xoá")
         if(confirm) {
-             await axios.delete(`https://commerse-production.up.railway.app/carts/${id}`);
-             setCart(carts.filter(item => item._id !== id))
+            dispatch(RemoveCart(id))
+             
             toastr.success("Xoá thành công")
         }
     }
@@ -40,13 +42,13 @@ const ListCart = (props: Props) => {
       </tr>
     </thead>
     <tbody>
-    {carts?.map((item,index) => {
-                return  <tr>
+    {carts?.map((item: CartType,index: number) => {
+                return  <tr key={index + 1}>
                 <td>{index +1 }</td>
-                <td>{item.totalprice}</td>
+                <td><NumberFormat value={item.totalprice} displayType={'text'} thousandSeparator={true} prefix={''} />₫</td>
                 <td>{item.status == 1 ? 'Đã gửi' : 'Đang xử lý'}</td>
                 <td><NavLink className="btn btn-success" to={`${item._id}/detail`}>Click</NavLink></td>
-                <td><button onClick={() => onRemove(item._id)} className='btn btn-info'>Remove</button></td>
+                <td><button onClick={() => onRemove(item._id!)} className='btn btn-info'>Remove</button></td>
                 
               
               </tr>

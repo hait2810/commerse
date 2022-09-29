@@ -7,18 +7,22 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   readProduct,
   updateProduct,
 } from "../../features/Products/Product.slice";
+import { ListSize } from "../../features/Size/Size.slice";
+import { listCategory } from "../../features/Categorys/Category.slice";
+import { CategoryType } from "../../types/CategoryType";
+import { SizeType } from "../../types/SizeType";
 type Props = {};
 
 const UpdateProduct = (props: Props) => {
   const navigate = useNavigate();
-  const [sizes, setSize] = useState<any[]>([]);
+ 
   const [avatar, setAvatar] = useState("");
-  const [category, setCategory] = useState<any[]>([]);
+  
   const [imgs, setImgs] = useState<any[]>([]);
   const [color, setColor] = useState<any[]>([]);
   const [product, setProduct] = useState<any>({});
@@ -27,20 +31,13 @@ const UpdateProduct = (props: Props) => {
   document.title = product.name;
   const { id } = useParams();
   const { register, handleSubmit, formState, reset } = useForm<any>();
-
+  const category = useSelector(
+    (state: CategoryType) => state.category.categorys
+  );
+  const sizes = useSelector((state: SizeType) => state.size.sizes)
   useEffect(() => {
-    const getSize = async () => {
-      const { data } = await axios.get("http://localhost:8000/sizes");
-
-      setSize(data);
-    };
-    getSize();
-
-    const getCategorys = async () => {
-      const { data } = await axios.get("http://localhost:8000/categorys");
-      setCategory(data);
-    };
-    getCategorys();
+    dispatch(ListSize())
+    dispatch(listCategory())
 
     const getProducts = async () => {
       const { payload } = await dispatch(readProduct(id!));
@@ -197,8 +194,8 @@ const UpdateProduct = (props: Props) => {
               multiple
               aria-label="multiple select example"
             >
-              {sizes?.map((item) => {
-                return <option value={item.name}>{item.name}</option>;
+              {sizes?.map((item:SizeType, index:number) => {
+                return <option key={index ++} value={item.name}>{item.name}</option>;
               })}
             </select>
           </div>
@@ -212,8 +209,8 @@ const UpdateProduct = (props: Props) => {
               aria-label="select example"
             >
               <option value="">Bấm vào để chọn</option>
-              {category?.map((item) => {
-                return <option value={item._id}>{item.name}</option>;
+              {category?.map((item:CategoryType, index: number) => {
+                return <option key={index ++} value={item._id}>{item.name}</option>;
               })}
             </select>
           </div>

@@ -3,7 +3,6 @@ import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 import {useNavigate} from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { CategoryType } from '../../types/CategoryType'
 import { addCategory } from '../../features/Categorys/Category.slice'
@@ -17,10 +16,20 @@ const AddCategory = (props: Props) => {
     const {register, handleSubmit} = useForm<FormInputs>()
     const dispatch = useDispatch<any>()
     const navigate = useNavigate()
-    const onAdd:SubmitHandler<CategoryType> = (data:  CategoryType) => {
-            dispatch(addCategory(data))
-            toastr.success("Thêm thành công");
-            navigate('/admin/categorys')
+    const onAdd:SubmitHandler<CategoryType> = async (category:  CategoryType) => {
+           try {
+            const res = await dispatch(addCategory(category))  
+            if(res.payload.message) {
+                toastr.info(res.payload.message)
+            }else {
+              toastr.success("Thêm thành công");
+              navigate('/admin/categorys')
+            }
+           
+           } catch (error) {
+              console.log(error);
+              
+           }
     }
   return (
     <div>
